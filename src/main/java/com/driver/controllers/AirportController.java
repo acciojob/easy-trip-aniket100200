@@ -20,7 +20,7 @@ import java.util.Objects;
 public class AirportController
 {
     @Autowired
-    private TripService tripService;
+    private TripService tripService=new TripService();
     @PostMapping("/add_airport")
     public String addAirport(@RequestBody Airport airport){
 

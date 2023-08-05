@@ -20,7 +20,7 @@ import java.util.Map;
 public class TripService
 {
     @Autowired
-    private TripRepository tripRepository;
+    private TripRepository tripRepository=new TripRepository();
 
     public void addAirPort(Airport airport)
     {
