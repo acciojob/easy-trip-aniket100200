@@ -121,7 +121,14 @@ public class TripService
 
 
         Map<Integer,Passenger>passengerMap=tripRepository.getPassengerMap();
+
         list.add(passengerMap.get(passangerId));
+
+        List<Flight>flightList=bookedFlightByPassanger.get(passangerId);
+
+        flightList.add(flightMap.get(flightId));
+
+        bookedFlightByPassanger.put(passangerId,flightList);
 
         flightPassangerMap.put(flightId,list);
 
