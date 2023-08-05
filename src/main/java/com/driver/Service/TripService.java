@@ -105,7 +105,19 @@ public class TripService
 
 
         Map<Integer,List<Flight>>bookedFlightByPassanger=tripRepository.getBookedFlightByPassanger();
-        if(bookedFlightByPassanger.containsKey(passangerId) && bookedFlightByPassanger.get(passangerId).contains(flightMap.get(flightId)))return "FAILURE";
+       /*
+       *It may fail... when passenger has already booked a tiket..
+        */
+        if(bookedFlightByPassanger.containsKey(passangerId))
+        {
+            //this means passengers has already booked the ticket..
+            //List of the passenger.. for this flight..
+            List<Passenger> tempList=flightPassangerMap.get(flightId);
+            for(Passenger p:tempList)
+            {
+                if(p.getPassengerId()==passangerId)return "Failure";
+            }
+        }
 
 
         Map<Integer,Passenger>passengerMap=tripRepository.getPassengerMap();
@@ -184,13 +196,18 @@ public class TripService
     public int countOfBookingsDoneByPassengerAllCombined(Integer passengerId)
     {
         Map<Integer,List<Flight>>bookedFlightByPassanger=tripRepository.getBookedFlightByPassanger();
+        if(bookedFlightByPassanger.containsKey(passengerId)==false)return 0;
         return bookedFlightByPassanger.get(passengerId).size();
     }
 
     public String getAirportNameFromFlightId(Integer flightId){
+        if(flightId==null)return null;
+
        Flight ans=null;
         Map<Integer, Flight>flightMap=tripRepository.getFlightMap();
         ans=flightMap.get(flightId);
+
+        if(ans==null)return null;
        City city=ans.getFromCity();
 
         Map<String, Airport> airportMap=tripRepository.getAirportMap();
